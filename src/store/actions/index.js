@@ -1,0 +1,3 @@
+export {
+    getPokemonDetails
+} from "./pokemonAction"
