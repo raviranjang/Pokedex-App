@@ -1,30 +1,23 @@
-import React from "react";
-import ReactDom from "react-dom";
-import { createStore, applyMiddleware, compose } from "redux";
-import { Provider } from "react-redux";
-import thunk from "redux-thunk";
+import React from "react"
+import ReactDom from "react-dom"
 
-import App from "./components/App";
-import { getPokemonDetails } from "./store/actions";
+import configureStore from './store/configureStore'
+import { Provider } from 'react-redux'
+// import { Router } from 'react-router'
+// import routes from './routes'
 
+import App from './components/App'
 
-import reducers from "./store/reducers/index";
+import { loadPokemons } from './store/actions/pokemonAction'
 
-//for redux devtools
-//remove this in production
-const composeEnhancers =
-  typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-    : compose;
+const store = configureStore()
 
-const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
+store.dispatch(loadPokemons())
 
-//setting config when app is initialized
-store.dispatch(getPokemonDetails());
 
 ReactDom.render(
   <Provider store={store}>
     <App />
   </Provider>,
   document.getElementById("root")
-);
+)
